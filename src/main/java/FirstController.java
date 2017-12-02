@@ -6,7 +6,7 @@ public class FirstController {
         System.out.println("haha");
     }
     public void tes3t(){
-        System.out.println("haha");
+        System.out.println("hahafefe");
     }
 
     public void tes3t3(){
