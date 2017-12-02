@@ -1,7 +1,7 @@
 /**
  * Created by cailineng on 2017/12/2.
  */
-public class firstController {
+public class FirstController {
   public void test(){
         System.out.println("haha");
     }
