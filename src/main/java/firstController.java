@@ -8,4 +8,8 @@ public class firstController {
     public void tes3t(){
         System.out.println("haha");
     }
+
+    public void tes3t3(){
+        System.out.println("haha3");
+    }
 }
