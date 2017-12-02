@@ -5,4 +5,7 @@ public class firstController {
   public void test(){
         System.out.println("haha");
     }
+    public void tes3t(){
+        System.out.println("haha");
+    }
 }
