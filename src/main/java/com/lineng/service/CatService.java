@@ -4,15 +4,20 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import com.lineng.model.Cat;
+import com.lineng.repository.Cat2Repository;
 import com.lineng.repository.CatRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
 public class CatService {
 	@Resource
 	private CatRepository catRepository;
+
+	@Resource
+	private Cat2Repository cat2Repository;
 /*	@Resource
 	private CatDao catDao;*/
 
@@ -39,5 +44,9 @@ public class CatService {
 	//查询数据.
 	public Iterable<Cat> getAll(){
 		return catRepository.findAll();
+	}
+
+	public List<Cat> findByCatName2(String catName){
+		return cat2Repository.findByCatAge(catName);
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by cailineng on 2017/12/2.
@@ -38,11 +39,16 @@ public class FirstController {
     }
 
     @RequestMapping("/saveCat")
-    public Cat saveCat(){
+    public Cat saveCat(String name){
         Cat cat  = new Cat();
         cat.setCatAge("18");
-        cat.setCatName("name");
+        cat.setCatName(name);
         catService.save(cat);
         return cat;
+    }
+
+    @RequestMapping("/getNameList")
+    public List<Cat> getNameList(){
+        return catService.findByCatName2("18");
     }
 }
