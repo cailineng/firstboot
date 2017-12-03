@@ -54,8 +54,85 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     </dependency>
 
 
+    <!-- 添加MySQL数据库驱动依赖包. -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+
+    <!-- 添加Spring-data-jpa依赖. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- 引入了spring-data-jpa，不需要引入
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+     -->
+
+      <!-- 添加thymeleaf的依赖. -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
+
+
+
+      <!-- freemarker的依赖配置信息 -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-freemarker</artifactId>
+      </dependency>
+
+
   </dependencies>
+
+  <!-- 构建节点. -->
   <build>
     <finalName>firstboot</finalName>
+    <plugins>
+
+
+      <!-- 在这里添加springloader plugin
+      <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin </artifactId>
+            <dependencies>
+             <dependency>
+                 <groupId>org.springframework</groupId>
+                 <artifactId>springloaded</artifactId>
+                 <version>1.2.4.RELEASE</version>
+             </dependency>
+          </dependencies>
+          <executions>
+             <execution>
+                 <goals>
+                     <goal>repackage</goal>
+                 </goals>
+                 <configuration>
+                     <classifier>exec</classifier>
+                 </configuration>
+             </execution>
+             </executions>
+      </plugin>
+       -->
+
+      <!-- 这是spring boot devtool plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!--fork :  如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
+          <fork>true</fork>
+        </configuration>
+      </plugin>
+
+
+    </plugins>
+
   </build>
+
 </project>
