@@ -1,9 +1,12 @@
 package com.lineng.controller;
 
+import com.lineng.model.Cat;
 import com.lineng.model.Demo;
+import com.lineng.service.CatService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -11,6 +14,8 @@ import java.util.Date;
  */
 @RestController
 public class FirstController {
+    @Resource
+    CatService catService;
     @RequestMapping("/hello")
     public String hello(){
       return "haha";
@@ -30,5 +35,14 @@ public class FirstController {
         d.setName("cailineng613");
         d.setCreateTime(new Date());
         return d;
+    }
+
+    @RequestMapping("/saveCat")
+    public Cat saveCat(){
+        Cat cat  = new Cat();
+        cat.setCatAge("18");
+        cat.setCatName("name");
+        catService.save(cat);
+        return cat;
     }
 }

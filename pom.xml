@@ -73,19 +73,6 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     </dependency>
      -->
 
-      <!-- 添加thymeleaf的依赖. -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-thymeleaf</artifactId>
-      </dependency>
-
-
-
-      <!-- freemarker的依赖配置信息 -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-freemarker</artifactId>
-      </dependency>
 
 
   </dependencies>
