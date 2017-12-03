@@ -51,4 +51,9 @@ public class FirstController {
     public List<Cat> getNameList(){
         return catService.findByCatName2("18");
     }
+
+    @RequestMapping("/getCat")
+    public Cat getCat(){
+        return catService.getCat("chenshuwen");
+    }
 }

@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 
 import com.lineng.model.Cat;
 import com.lineng.repository.Cat2Repository;
+import com.lineng.repository.CatDao;
 import com.lineng.repository.CatRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class CatService {
 
 	@Resource
 	private Cat2Repository cat2Repository;
-/*	@Resource
-	private CatDao catDao;*/
+	@Resource
+	private CatDao catDao;
 
 	/**
 	 * save,update ,delete 方法需要绑定事务.
@@ -49,4 +50,8 @@ public class CatService {
 	public List<Cat> findByCatName2(String catName){
 		return cat2Repository.findByCatAge(catName);
 	}
+
+	public Cat getCat(String catName){
+        return catDao.selectByCatName(catName);
+    }
 }
