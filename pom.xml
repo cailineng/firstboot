@@ -85,6 +85,12 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
       <version>3.0.1-b08</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.18</version>
+    </dependency>
+
     <!-- tomcat 的支持.-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
