@@ -63,8 +63,8 @@ public class App{
 		HttpMessageConverter<?> converter = fastConverter;
 		return new HttpMessageConverters(converter);
 	}
-	
-	
+
+
 	/**
 	 * 这是springloader的配置方式：-javaagent:.\lib\springloaded-1.2.4.RELEASE.jar -noverify
 	 * @param args
