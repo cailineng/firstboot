@@ -3,18 +3,23 @@ package com.lineng.controller;
 import com.lineng.model.Cat;
 import com.lineng.model.Demo;
 import com.lineng.service.CatService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by cailineng on 2017/12/2.
  */
 @RestController
 public class FirstController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Resource
+    RedisTemplate redisTemplate;
     @Resource
     CatService catService;
     @RequestMapping("/hello")
@@ -55,5 +60,14 @@ public class FirstController {
     @RequestMapping("/getCat")
     public Cat getCat(){
         return catService.getCat("chenshuwen");
+    }
+
+    @RequestMapping("/setKey")
+    public Map setKey(String key){
+        logger.error("setKey go go go");
+        redisTemplate.opsForValue().set("cai","cailineng");
+        List<Cat> list = catService.findByCatName2("18");
+        redisTemplate.opsForValue().set("catList",list);
+      return new HashMap();
     }
 }

@@ -3,6 +3,7 @@ package com.lineng.service;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import com.lineng.mapper.CatMapper;
 import com.lineng.model.Cat;
 import com.lineng.repository.Cat2Repository;
 import com.lineng.repository.CatDao;
@@ -19,6 +20,8 @@ public class CatService {
 
 	@Resource
 	private Cat2Repository cat2Repository;
+	@Resource
+	private CatMapper catMapper;
 	@Resource
 	private CatDao catDao;
 
@@ -48,7 +51,9 @@ public class CatService {
 	}
 
 	public List<Cat> findByCatName2(String catName){
-		return cat2Repository.findByCatAge(catName);
+		System.out.println("haha");
+		return catMapper.getCats(catName);
+		/*return cat2Repository.findByCatAge(catName);*/
 	}
 
 	public Cat getCat(String catName){
