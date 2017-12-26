@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title></title>
+</head>
+<body>
+hhhhh
+
+<h1 th:text="${host}">this is host</h1>
+<h1 th:text="${cat.catName}">this is host</h1>
+
+<table>
+    <tr data-th-each="mycat,iterStat : ${catList}">
+        <td data-th-text="${iterStat.count}"></td>
+        <td data-th-text="${mycat.id}"></td>
+        <td data-th-text="${mycat.catName}"></td>
+
+    </tr>
+</table>
+
+<a th:href="@{'http://localhost:8080/testThe?id='+${testId}+'&hehe='+${hehe}}">toTestId</a>
+
+<a th:href="@{/testThe(id=${testId},hehe=${hehe})}">toTestId2</a>
+
+</body>
+</html>

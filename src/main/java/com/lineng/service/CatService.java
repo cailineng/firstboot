@@ -51,8 +51,7 @@ public class CatService {
 	}
 
 	public List<Cat> findByCatName2(String catName){
-		System.out.println("haha");
-		return catMapper.getCats(catName);
+	 	return catMapper.getCats(catName);
 		/*return cat2Repository.findByCatAge(catName);*/
 	}
 

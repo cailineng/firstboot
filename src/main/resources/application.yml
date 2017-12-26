@@ -1,0 +1,90 @@
+server:
+    port: 8080
+    tomcat.uri-encoding: UTF-8
+    context-path: /firstboot
+
+banner:
+    charset: UTF-8
+
+spring:
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+    messages:
+        encoding: UTF-8
+    datasource:
+        url: jdbc:mysql://localhost:3306/testboot
+        username: root
+        password: root
+        driverClassName: com.mysql.jdbc.Driver
+        #使用Druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        # 初始化大小，最小，最大
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        # 配置获取连接等待超时的时间
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 60000
+        # 配置一个连接在池中最小生存的时间，单位是毫秒
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROMDUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        filters: stat,wall,log4j
+        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        # 合并多个DruidDataSource的监控数据
+        useGlobalDataSourceStat: false
+  #  mvc:
+  #      view:
+  #          prefix: /WEB-INF/view/
+  #          suffix: .jsp
+    thymeleaf:
+        mode: LEGACYHTML5
+        cache: false
+    jpa:
+        database: MYSQL
+        # Show or not log for each sql query
+        show-sql: true
+        # Hibernate ddl auto (create, create-drop, update)
+        hibernate:
+            ddl-auto : update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        # Naming strategy
+        # stripped before adding them to the entity manager)
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
+
+
+    #暂时不用redis，所以none，spring.session.store-type=reids
+    session:
+        store-type: none
+    #redis的IP地址
+    redis:
+        host: 192.168.192.154
+        #redis的端口
+        port: 6379
+        #redis的密码
+        password: root
+        database: 0
+    #主配置文件，配置了这个会优先读取里面的属性覆盖主配置文件的属性
+    profiles:
+        active: prod
+    #日志输出目录
+    #logging.path=D:\\testLockBack
+    # 应用自定义配置
+logging:
+    config: classpath:logback-spring.xml
+
+
