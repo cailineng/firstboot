@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lineng.mapper.CatMapper">
+    <select id="getCats" resultType="com.lineng.model.Cat" parameterType="java.lang.String">
+        SELECT * FROM cat WHERE catName = #{catName}
+    </select>
+</mapper>

@@ -51,20 +51,21 @@ spring:
     thymeleaf:
         mode: LEGACYHTML5
         cache: false
-    jpa:
-        database: MYSQL
+
+   ## jpa:
+   ##     database: MYSQL
         # Show or not log for each sql query
-        show-sql: true
+   ##     show-sql: true
         # Hibernate ddl auto (create, create-drop, update)
-        hibernate:
-            ddl-auto : update
-            naming:
-                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+   ##     hibernate:
+   ##         ddl-auto : update
+   ##         naming:
+   ##             physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         # Naming strategy
         # stripped before adding them to the entity manager)
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.MySQL5Dialect
+  ##      properties:
+  ##          hibernate:
+  ##              dialect: org.hibernate.dialect.MySQL5Dialect
 
 
     #暂时不用redis，所以none，spring.session.store-type=reids
@@ -86,5 +87,6 @@ spring:
     # 应用自定义配置
 logging:
     config: classpath:logback-spring.xml
-
+mybatis:
+  mapperLocations: classpath:mybatis/*.xml
 

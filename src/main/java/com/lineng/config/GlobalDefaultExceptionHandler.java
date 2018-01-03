@@ -28,6 +28,7 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public String defaultExceptionHandler(HttpServletRequest req,Exception e){
+		System.out.println(e.fillInStackTrace());
 		//是返回的String.
 		
 		//ModelAndView -- 介绍 模板引擎...?

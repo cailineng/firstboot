@@ -13,7 +13,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.4.1.RELEASE</version>
+    <version>1.5.9.RELEASE</version>
   </parent>
 
 
@@ -61,11 +61,12 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     </dependency>
 
     <!-- 添加Spring-data-jpa依赖. -->
+    <!--
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-
+-->
 
     <!-- servlet依赖. -->
     <dependency>
@@ -94,7 +95,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     <dependency>
       <groupId>org.mybatis.spring.boot</groupId>
       <artifactId>mybatis-spring-boot-starter</artifactId>
-      <version>1.1.1</version>
+      <version>1.3.1</version>
     </dependency>
 
     <!-- tomcat 的支持.-->
@@ -105,11 +106,6 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-jasper</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mybatis</groupId>
-      <artifactId>mybatis-spring</artifactId>
-      <version>1.3.0</version>
     </dependency>
 
     <dependency>
@@ -140,7 +136,29 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
       <version>2.2.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.thymeleaf.extras</groupId>
+      <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+    </dependency>
   </dependencies>
+
+  <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-acl</artifactId>
+    <version>${springsecurity.version}</version>
+    <scope>provided</scope>
+  </dependency>
+
 
   <!-- 构建节点. -->
   <build>

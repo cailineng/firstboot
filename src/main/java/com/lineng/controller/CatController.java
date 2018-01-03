@@ -2,7 +2,10 @@ package com.lineng.controller;
 
 import com.lineng.model.Cat;
 import com.lineng.model.Demo;
+import com.lineng.model.SystemUser;
 import com.lineng.service.CatService;
+import com.lineng.service.SystemUserService;
+import com.lineng.vo.SystemUserVo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -18,19 +21,16 @@ import java.util.*;
  * Created by cailineng on 2017/12/2.
  */
 @RestController
-public class FirstController {
+public class CatController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     RedisTemplate redisTemplate;
     @Resource
     CatService catService;
+    @Resource
+    private SystemUserService systemUserService;
 
-    @ApiOperation(value="普通hello测试", notes="我要返回haha")
-    @RequestMapping(value="/hello",method = RequestMethod.GET)
-    public String hello(){
-      return "haha";
-    }
-
+    @ApiOperation(value="JSON的demo", notes="我要返回")
     @RequestMapping(value="/getDemo",method = RequestMethod.GET)
     public Demo getDemo(){
         Demo d = new Demo();
@@ -39,39 +39,17 @@ public class FirstController {
         return d;
     }
 
-    @RequestMapping(value="/getDemo2",method = RequestMethod.GET)
-    public Demo getDemo2(){
-        Demo d = new Demo();
-        d.setName("cailineng613");
-        d.setCreateTime(new Date());
-        return d;
-    }
-
-    @RequestMapping(value="/saveCat",method = RequestMethod.GET)
-    public Cat saveCat(String name){
-        Cat cat  = new Cat();
-        cat.setCatAge("18");
-        cat.setCatName(name);
-        catService.save(cat);
-        return cat;
-    }
-
     @ApiOperation(value="根据猫的名字查询猫列表", notes="得到catNameList")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "catName", value = "猫的名字", required = true,paramType = "query",  dataType = "String"),
     })
-   // @RequestMapping(value="/getNameList/{catName}",method = RequestMethod.GET)
-   // public List<Cat> getNameList(@PathVariable String catName){
     @RequestMapping(value="/getNameList",method = RequestMethod.GET)
     public List<Cat> getNameList(@RequestParam(value="catName") String catName){
         return catService.findByCatName2(catName);
     }
 
-    @RequestMapping(value="/getCat",method = RequestMethod.GET)
-    public Cat getCat(){
-        return catService.getCat("chenshuwen");
-    }
 
+    @ApiOperation(value="REDIS以及日志的测试", notes="我要返回")
     @RequestMapping(value="/setKey",method = RequestMethod.GET)
     public Map setKey(String key){
         logger.info("setKey go go go");
@@ -79,5 +57,13 @@ public class FirstController {
         List<Cat> list = catService.findByCatName2("18");
         redisTemplate.opsForValue().set("catList",list);
       return new HashMap();
+    }
+
+    @RequestMapping(value="/getSystemUserByUserInfo",method = RequestMethod.GET)
+    public Map getSystemUserByUserInfo(String userName, String psw){
+        SystemUserVo systemUserVo = systemUserService.getSystemUserByUserInfo(userName,psw);
+        Map map = new HashMap();
+        map.put("data",systemUserVo);
+        return map;
     }
 }

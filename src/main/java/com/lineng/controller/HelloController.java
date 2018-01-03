@@ -54,4 +54,19 @@ public class HelloController {
 		return "testThe";
 	}
 
-}
+
+	//spring security测试
+	@RequestMapping("/")
+	public String index() {
+		return "index";
+	}
+
+	@RequestMapping("/hello")
+	public String hello() {
+		return "hello";
+	}
+
+	@RequestMapping("/loginneng")
+	public String loginneng() {
+		return "loginneng";
+	}}

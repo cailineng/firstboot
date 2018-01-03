@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lineng.mapper.SystemUserMapper">
+    <resultMap id="systemUserResult" type="com.lineng.vo.SystemUserVo">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="psw" column="psw"/>
+
+        <collection property="systemRoleList" ofType="com.lineng.model.SystemRole">
+            <id property="id" column="systemRoleId"/>
+            <result property="roleName" column="roleName"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="getSystemUserByUserInfo" resultMap="systemUserResult" parameterType="java.util.Map">
+        <!--  SELECT u.* FROM systemUser u  WHERE u.userName = #{userName} and u.psw = #{psw}
+             -->
+            SELECT u.*,sr.id  systemRoleId,sr.roleName FROM systemUser u
+            LEFT JOIN systemRoleUser sru on u.id = sru.systemUserId
+            LEFT JOIN systemRole sr on sr.id =  sru.systemRoleId
+            WHERE u.userName = #{userName}
+    </select>
+</mapper>
