@@ -152,12 +152,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     </dependency>
   </dependencies>
 
-  <dependency>
-    <groupId>org.springframework.security</groupId>
-    <artifactId>spring-security-acl</artifactId>
-    <version>${springsecurity.version}</version>
-    <scope>provided</scope>
-  </dependency>
+
 
 
   <!-- 构建节点. -->
