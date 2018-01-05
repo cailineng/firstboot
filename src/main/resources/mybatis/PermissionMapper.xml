@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lineng.mapper.PermissionMapper">
+    <select id="findAll"  resultType="com.lineng.model.Permission">
+        SELECT * from systemPermission ;
+    </select>
+
+    <select id="findByAdminUserId" parameterType="int" resultType="com.lineng.model.Permission">
+        SELECT p.* FROM systemUser u
+        LEFT JOIN systemRoleUser sru on u.id = sru.systemUserId
+        LEFT JOIN systemRole sr on sr.id =  sru.systemRoleId
+         LEFT JOIN systemPermissionRole spr on spr.roleId=sr.id
+        LEFT JOIN systemPermission p on p.id =spr.permissionId
+        where u.id=#{userId}
+    </select>
+</mapper>

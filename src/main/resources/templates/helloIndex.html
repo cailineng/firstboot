@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="注销"/>
+    </form>
+    I am hello Index
+    <span th:text="${#authentication.authorities}"></span>
+
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')">我有admin  helloIndex</div>
+
+    <div sec:authorize="hasRole('ROLE_USER')">
+       我有USER helloIndex
+    </div>
+
+    <div sec:authorize="hasRole('ADMINNENG')">
+       我有adminneng  helloIndex
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_ADMINNENG')">
+        我有adminneng2  helloIndex
+    </div>
+
+    <div sec:authorize="hasRole('ADMINNENG2')">
+        我有adminneng3  helloIndex
+    </div>
+
+</body>
+</html>

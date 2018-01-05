@@ -1,6 +1,8 @@
 package com.lineng.service;
 
+import com.lineng.mapper.PermissionMapper;
 import com.lineng.mapper.SystemUserMapper;
+import com.lineng.model.Permission;
 import com.lineng.model.SystemRole;
 import com.lineng.vo.SystemUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     //UserRepository userRepository;
     @Resource
     private SystemUserMapper systemUserMapper;
+    @Resource
+    private PermissionMapper permissionMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,12 +39,26 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        for(SystemRole systemRole : systemUserVo.getSystemRoleList()){
+      /*  for(SystemRole systemRole : systemUserVo.getSystemRoleList()){
             authorities.add(new SimpleGrantedAuthority(systemRole.getRoleName()));
         }
         User user =new org.springframework.security.core.userdetails.User(systemUserVo.getUserName(),
                 systemUserVo.getPsw(), authorities);
-        return user;
+        return user;*/
+
+        List<Permission> permissions = permissionMapper.findByAdminUserId(systemUserVo.getId().intValue());
+        List<GrantedAuthority> grantedAuthorities = new ArrayList <>();
+        for (Permission permission : permissions) {
+            if (permission != null && permission.getName()!=null) {
+
+                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(permission.getName());
+                //1：此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
+                grantedAuthorities.add(grantedAuthority);
+            }
+        }
+
+
+        return new User(systemUserVo.getUserName(), systemUserVo.getPsw(), grantedAuthorities);
     }
 
    // Collection<? extends GrantedAuthority> getAuthorities();

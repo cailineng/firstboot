@@ -66,7 +66,12 @@ public class HelloController {
 		return "hello";
 	}
 
+	@RequestMapping("/helloIndex")
+	public String helloIndex() {
+		return "helloIndex";
+	}
+
 	@RequestMapping("/loginneng")
 	public String loginneng() {
-		return "loginneng";
+ 		return "loginneng";
 	}}

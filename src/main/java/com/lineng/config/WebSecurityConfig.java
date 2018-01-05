@@ -1,6 +1,7 @@
 package com.lineng.config;
 
 import com.lineng.service.CustomUserDetailsService;
+import com.lineng.service.impl.MyFilterSecurityInterceptor;
 import com.lineng.service.impl.MyInvocationSecurityMetadataSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,19 +17,8 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  /*  @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("allen").password("123456").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("dba").password("123456").roles("DBA");
-    }*/
-
-  /*  @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/hello").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-                .and().formLogin();
-    }*/
+    @Autowired
+    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
 
     @Override
     @Bean
@@ -41,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+     /*   http
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
@@ -50,7 +40,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginneng").permitAll()
                 .and()
                 .logout().permitAll();
-       // http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+                .csrf().disable();*/
+        http.authorizeRequests()
+                .anyRequest().authenticated() //任何请求,登录后可以访问
+                .and()
+                .formLogin()
+                .loginPage("/loginneng")
+                .permitAll() //登录页面用户任意访问
+                .and()
+                .logout().permitAll(); //注销行为任意访问
+        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
 
     @Autowired

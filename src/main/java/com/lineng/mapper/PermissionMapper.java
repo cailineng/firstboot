@@ -1,7 +1,15 @@
 package com.lineng.mapper;
 
+import com.lineng.model.Permission;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
 /**
- * Created by cailineng on 2018/1/1.
+ * Created by cailineng on 2018/1/3.
  */
-public class PermissionMapper {
+@Mapper
+public interface PermissionMapper {
+    public List<Permission> findAll();
+    public List<Permission> findByAdminUserId(int userId);
 }
