@@ -61,6 +61,7 @@ public class App{
 	 */
 	@Bean
 	public HttpMessageConverters fastJsonHttpMessageConverters() {
+		System.out.println("lineng");
 		// 1、需要先定义一个 convert 转换消息的对象;
 		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
 		
