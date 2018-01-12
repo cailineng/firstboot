@@ -54,7 +54,7 @@ public class CatService {
 		testCat.setCatAge("105");
 		testCat.setCatName("testCatName");
 		catMapper.insert(testCat);
-/*		if(1==1) {
+	/*	if(1==1) {
 			throw new RuntimeException();
 		}*/
 		catMapper.insert(testCat);

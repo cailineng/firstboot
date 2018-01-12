@@ -58,6 +58,7 @@ public class CatController {
     @RequestMapping(value="/setKey",method = RequestMethod.GET)
     public Map setKey(String key){
         logger.info("setKey go go go");
+        System.out.println("测试乱码");
        // redisTemplate.opsForValue().set("cai","cailineng");
         try {
             List<Cat> list = catService.findByCatName2("18");
