@@ -4,7 +4,6 @@ import com.lineng.model.Cat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.Map;
 @Controller
 public class HelloController {
 	@RequestMapping("/helloneng")
-	public ModelAndView helloneng(Map<String,Object> map){
-		map.put("hello","from TemplateController.helloHtml");
+	public ModelAndView helloneng(Map<String, Object> map) {
+		map.put("hello", "from TemplateController.helloHtml");
 		return new ModelAndView("/view/testTemplate");
 	}
 
@@ -40,14 +39,14 @@ public class HelloController {
 		list.add(cat2);
 		map.addAttribute("catList", list);
 		// return模板文件的名称，对应src/main/resources/templates/index.html
-		map.addAttribute("testId",5);
-		map.addAttribute("hehe",4);
+		map.addAttribute("testId", 5);
+		map.addAttribute("hehe", 4);
 		return "indexneng";
 	}
 
 
 	@RequestMapping("/testThe")
-	public String testThe(ModelMap map,Integer id,Integer hehe) {
+	public String testThe(ModelMap map, Integer id, Integer hehe) {
 		System.out.println(hehe);
 		System.out.println(id);
 		map.addAttribute("id", id);
@@ -73,5 +72,13 @@ public class HelloController {
 
 	@RequestMapping("/loginneng")
 	public String loginneng() {
- 		return "loginneng";
-	}}
+		return "loginneng";
+	}
+
+
+	//spring security测试
+	@RequestMapping("/403")
+	public String error() {
+		return "myerror";
+	}
+}

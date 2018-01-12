@@ -2,7 +2,6 @@ package com.lineng.config;
 
 import com.lineng.service.CustomUserDetailsService;
 import com.lineng.service.impl.MyFilterSecurityInterceptor;
-import com.lineng.service.impl.MyInvocationSecurityMetadataSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +10,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
@@ -50,7 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll() //登录页面用户任意访问
                 .and()
                 .logout().permitAll(); //注销行为任意访问
-        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);;
     }
 
     @Autowired
