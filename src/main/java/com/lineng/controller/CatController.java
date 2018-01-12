@@ -2,7 +2,6 @@ package com.lineng.controller;
 
 import com.lineng.model.Cat;
 import com.lineng.model.Demo;
-import com.lineng.model.SystemUser;
 import com.lineng.service.CatService;
 import com.lineng.service.SystemUserService;
 import com.lineng.vo.SystemUserVo;
@@ -12,10 +11,16 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cailineng on 2017/12/2.
@@ -44,7 +49,7 @@ public class CatController {
             @ApiImplicitParam(name = "catName", value = "猫的名字", required = true,paramType = "query",  dataType = "String"),
     })
     @RequestMapping(value="/getNameList",method = RequestMethod.GET)
-    public List<Cat> getNameList(@RequestParam(value="catName") String catName){
+    public List<Cat> getNameList(@RequestParam(value="catName") String catName) throws Exception {
         return catService.findByCatName2(catName);
     }
 
@@ -53,10 +58,14 @@ public class CatController {
     @RequestMapping(value="/setKey",method = RequestMethod.GET)
     public Map setKey(String key){
         logger.info("setKey go go go");
-        redisTemplate.opsForValue().set("cai","cailineng");
-        List<Cat> list = catService.findByCatName2("18");
-        redisTemplate.opsForValue().set("catList",list);
-      return new HashMap();
+       // redisTemplate.opsForValue().set("cai","cailineng");
+        try {
+            List<Cat> list = catService.findByCatName2("18");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // redisTemplate.opsForValue().set("catList",list);
+       return new HashMap();
     }
 
     @RequestMapping(value="/getSystemUserByUserInfo",method = RequestMethod.GET)

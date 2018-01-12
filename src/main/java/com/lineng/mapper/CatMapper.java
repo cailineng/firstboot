@@ -1,12 +1,10 @@
 package com.lineng.mapper;
 
 
-import java.util.List;
-import java.util.Map;
-
 import com.lineng.model.Cat;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 菜单管理
@@ -17,4 +15,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface CatMapper {
 	public List<Cat> getCats(String catName);
+
+	int insert(Cat record);
 }

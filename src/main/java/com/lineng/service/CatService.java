@@ -1,13 +1,11 @@
 package com.lineng.service;
 
-import javax.annotation.Resource;
-
-
 import com.lineng.mapper.CatMapper;
 import com.lineng.model.Cat;
-import com.lineng.repository.CatDao;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -22,8 +20,10 @@ public class CatService {
 	 * save,update ,delete 方法需要绑定事务.
 	 * 
 	 * 使用@Transactional进行事务的绑定.
-	 * 
-	 * @param cat
+	 *
+	 * @param catName
+	 * @return
+	 * @throws Exception
 	 */
 	/*
 	//保存数据.
@@ -48,7 +48,16 @@ public class CatService {
         return catDao.selectByCatName(catName);
     }
 */
-	public List<Cat> findByCatName2(String catName){
+	@Transactional
+	public List<Cat> findByCatName2(String catName) throws Exception {
+		Cat testCat = new Cat();
+		testCat.setCatAge("105");
+		testCat.setCatName("testCatName");
+		catMapper.insert(testCat);
+/*		if(1==1) {
+			throw new RuntimeException();
+		}*/
+		catMapper.insert(testCat);
 	 	return catMapper.getCats(catName);
 		/*return cat2Repository.findByCatAge(catName);*/
 	}
