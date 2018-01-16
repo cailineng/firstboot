@@ -1,11 +1,9 @@
-package com.lineng.service;
+package com.lineng.service.impl;
 
 import com.lineng.mapper.PermissionMapper;
 import com.lineng.mapper.SystemUserMapper;
 import com.lineng.model.Permission;
-import com.lineng.model.SystemRole;
 import com.lineng.vo.SystemUserVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,7 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cailineng on 2017/12/30.

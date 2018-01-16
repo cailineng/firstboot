@@ -20,6 +20,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- 指定一下jdk的版本 ，这里我们使用jdk 1.8 ,默认是1.6 -->
     <java.version>1.8</java.version>
   </properties>
@@ -189,8 +190,10 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+
         <configuration>
-          <!--fork :  如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
+            <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+            <!--fork :  如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
           <fork>true</fork>
         </configuration>
       </plugin>
