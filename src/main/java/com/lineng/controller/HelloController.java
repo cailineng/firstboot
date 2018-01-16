@@ -21,10 +21,11 @@ public class HelloController {
 
 	@RequestMapping("/neng")
 	public String index(ModelMap map) {
+		System.out.println("蔡力能哈哈");
 		Cat cat = new Cat();
 		cat.setId(1);
 		cat.setCatAge("18");
-		cat.setCatName("wenwen");
+		cat.setCatName("蔡力能");
 		// 加入一个属性，用来在模板中读取
 		map.addAttribute("host", "lineng.com");
 		map.addAttribute("cat", cat);

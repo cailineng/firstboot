@@ -4,19 +4,27 @@ import com.lineng.model.Cat;
 import com.lineng.model.Demo;
 import com.lineng.service.CatService;
 import com.lineng.service.SystemUserService;
+import com.lineng.vo.CatVo;
 import com.lineng.vo.SystemUserVo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +34,7 @@ import java.util.Map;
  * Created by cailineng on 2017/12/2.
  */
 @RestController
+@Validated
 public class CatController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
@@ -71,9 +80,38 @@ public class CatController {
 
     @RequestMapping(value="/getSystemUserByUserInfo",method = RequestMethod.GET)
     public Map getSystemUserByUserInfo(String userName, String psw){
+        System.out.println("进来了测试乱码哈哈哈");
         SystemUserVo systemUserVo = systemUserService.getSystemUserByUserInfo(userName,psw);
         Map map = new HashMap();
         map.put("data",systemUserVo);
         return map;
     }
+
+
+    @RequestMapping(value="/validBean",method = RequestMethod.GET)
+    public Map validBean(@Valid CatVo catDemo,BindingResult result){
+        if(result.hasErrors()) {
+            List<ObjectError> list = result.getAllErrors();
+            for (ObjectError error : list) {
+                System.out.println(error.getCode() + "---" + error.getArguments().toString() + "---" + error.getDefaultMessage());
+            }
+        }
+        Map map = new HashMap();
+        map.put("data","");
+        return map;
+    }
+
+    /**如果只有少数对象，直接把参数写到Controller层，然后在Controller层进行验证就可以了。*/
+    @RequestMapping(value="/validParams",method = RequestMethod.GET)
+    public void validParams(@Range(min = 1, max = 9, message = "年级只能从1-9")
+                      @RequestParam(name = "grade", required = true)
+                      int grade,
+                      @Min(value = 1, message = "班级最小只能1")
+                      @Max(value = 99, message = "班级最大只能99")
+                      @RequestParam(name = "classroom", required = true)
+                      int classroom) {
+        System.out.println(grade + "," + classroom);
+    }
+
+
 }

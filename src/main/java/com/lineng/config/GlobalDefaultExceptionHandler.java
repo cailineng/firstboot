@@ -1,10 +1,14 @@
 package com.lineng.config;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.lineng.util.R;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.*;
 
 
 /**
@@ -22,8 +26,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler {
-	
-	
+
+	@ExceptionHandler(value = {ConstraintViolationException.class})
+	@ResponseBody
+	public R handleConstraintViolationException(ConstraintViolationException e) {
+		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+		Map<String, List<String>> errors = new HashMap<>();
+		for (ConstraintViolation<?> violation : violations) {
+
+			List<String> list = errors.get(violation.getPropertyPath().toString());
+
+			if (list == null) {
+				list = new ArrayList<>();
+			}
+
+			list.add(violation.getMessage());
+			errors.put(violation.getPropertyPath().toString(), list);
+		}
+		return R.error("校验参数错误").put("errors", errors);
+	}
 	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody

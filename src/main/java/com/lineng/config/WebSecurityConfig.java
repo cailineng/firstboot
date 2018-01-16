@@ -1,6 +1,6 @@
 package com.lineng.config;
 
-import com.lineng.service.CustomUserDetailsService;
+import com.lineng.service.impl.CustomUserDetailsService;
 import com.lineng.service.impl.MyFilterSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,13 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
@@ -53,7 +52,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll(); //注销行为任意访问
         http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);;
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+    }
+
+    @Bean
+    AccessDeniedHandler accessDeniedHandler() {
+        AccessDeniedHandlerImpl accessDeniedHandler = new AccessDeniedHandlerImpl();
+        accessDeniedHandler.setErrorPage("/403");
+        return accessDeniedHandler;
     }
 
     @Autowired
