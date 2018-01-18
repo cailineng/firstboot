@@ -1,11 +1,9 @@
 package com.lineng.config;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -15,21 +13,21 @@ import java.util.List;
 @Configuration
 public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
 
-    @Bean
+/*    @Bean
     public FilterRegistrationBean someFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(getCharacterEncodingFilter());
-        registration.addUrlPatterns("/*");
+        registration.addUrlPatterns("*//*");
         registration.addInitParameter("paramName", "paramValue");
         registration.setName("encodingFilter");
         return registration;
-    }
+    }*/
 
-    @Bean
+/*    @Bean
     public CharacterEncodingFilter getCharacterEncodingFilter() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter("UTF-8");
         return characterEncodingFilter;
-    }
+    }*/
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {
