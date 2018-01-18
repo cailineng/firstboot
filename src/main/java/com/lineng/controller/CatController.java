@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -90,12 +89,6 @@ public class CatController {
 
     @RequestMapping(value="/validBean",method = RequestMethod.GET)
     public Map validBean(@Valid CatVo catDemo,BindingResult result){
-        if(result.hasErrors()) {
-            List<ObjectError> list = result.getAllErrors();
-            for (ObjectError error : list) {
-                System.out.println(error.getCode() + "---" + error.getArguments().toString() + "---" + error.getDefaultMessage());
-            }
-        }
         Map map = new HashMap();
         map.put("data","");
         return map;
