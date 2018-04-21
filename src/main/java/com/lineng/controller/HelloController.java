@@ -1,11 +1,18 @@
 package com.lineng.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.lineng.model.Cat;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +47,7 @@ public class HelloController {
 		list.add(cat2);
 		map.addAttribute("catList", list);
 		// return模板文件的名称，对应src/main/resources/templates/index.html
-		map.addAttribute("testId", 5);
+			map.addAttribute("testId", 5);
 		map.addAttribute("hehe", 4);
 		return "indexneng";
 	}
@@ -53,6 +60,27 @@ public class HelloController {
 		map.addAttribute("id", id);
 		return "testThe";
 	}
+
+
+
+
+	@RequestMapping("/interruptCall.do")
+	@ResponseBody
+	public Object showUser(HttpServletRequest request, HttpServletResponse response,String name) throws IOException {
+		String callback = request.getParameter("callback");
+		Cat message = new Cat();
+		message.setId(1);
+		message.setCatName("neng");
+		message.setCatAge("14");
+		MappingJacksonValue m = new MappingJacksonValue(message);
+		m.setJsonpFunction(callback);
+		return m;
+	}
+	/*public String interruptCall_new(String sessionId, boolean autoInterrupt, String jsonpCallBack, Integer pId) {
+		Cat cat = new Cat();
+		cat.setCatName("3");
+		return jsonpCallBack + "(" + JSONObject.toJSON(cat).toString() + ")";
+	}*/
 
 
 	//spring security测试
@@ -77,9 +105,4 @@ public class HelloController {
 	}
 
 
-	//spring security测试
-	@RequestMapping("/403")
-	public String error() {
-		return "myerror";
-	}
 }
