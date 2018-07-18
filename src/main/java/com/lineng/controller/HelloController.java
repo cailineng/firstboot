@@ -1,17 +1,24 @@
 package com.lineng.controller;
 
 import com.lineng.model.Cat;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class HelloController {
+	@Autowired
+	private AmqpTemplate rabbitTemplate;
+
 	@RequestMapping("/helloneng")
 	public ModelAndView helloneng(Map<String, Object> map) {
 		map.put("hello", "from TemplateController.helloHtml");
@@ -21,7 +28,15 @@ public class HelloController {
 
 	@RequestMapping("/neng")
 	public String index(ModelMap map) {
-		System.out.println("蔡力能哈哈");
+		for(int i=0;i<30;i++) {
+			//String context = "hello :" +i;
+			Cat cat = new Cat();
+			cat.setCatAge("19");
+			cat.setCatName("cailineng"+i);
+			cat.setId(20);
+			this.rabbitTemplate.convertAndSend("hello", cat);
+		}
+		//System.out.println("蔡力能哈哈");
 		Cat cat = new Cat();
 		cat.setId(1);
 		cat.setCatAge("18");
@@ -81,5 +96,48 @@ public class HelloController {
 	@RequestMapping("/403")
 	public String error() {
 		return "myerror";
+	}
+
+	@RequestMapping("/testQueue")
+	@ResponseBody
+	public Map testQueue() {
+		Cat cat = new Cat();
+		cat.setId(1);
+		cat.setCatName("wenwen");
+		cat.setCatAge("25");
+		this.rabbitTemplate.convertAndSend("hello",cat);
+		Map rmap = new HashMap();
+		rmap.put("haha","testQueue");
+		return rmap;
+	}
+
+	@RequestMapping("/testRabbitTopic")
+	@ResponseBody
+	public Map testRabbitTopic() {
+		String context = "hi, i am message delete";
+		this.rabbitTemplate.convertAndSend("linengDemoExchange", "topic.shop.delete", context);
+		Map rmap = new HashMap();
+		rmap.put("haha","xixi");
+		return rmap;
+	}
+
+	@RequestMapping("/testRabbitTopic2")
+	@ResponseBody
+	public Map testRabbitTopic2() {
+		String context = "hi, i am messages insert";
+		this.rabbitTemplate.convertAndSend("linengDemoExchange", "topic.shop.insert", context);
+		Map rmap = new HashMap();
+		rmap.put("haha","xixi2");
+		return rmap;
+	}
+
+	@RequestMapping("/testRabbitTopic3")
+	@ResponseBody
+	public Map testRabbitTopic3() {
+		String context = "hi, i am messages update";
+		this.rabbitTemplate.convertAndSend("linengDemoExchange", "topic.shop.update", context);
+		Map rmap = new HashMap();
+		rmap.put("haha","xixi3");
+		return rmap;
 	}
 }

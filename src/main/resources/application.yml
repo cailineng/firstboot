@@ -7,6 +7,13 @@ banner:
     charset: UTF-8
 
 spring:
+    application:
+        name: rabbitmq-hello
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: cailineng
+        password: cailineng
     http:
         encoding:
             charset: UTF-8
