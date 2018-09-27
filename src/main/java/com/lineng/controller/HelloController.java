@@ -1,24 +1,24 @@
 package com.lineng.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.lineng.model.Cat;
-import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class HelloController {
+	@Autowired
+	private AmqpTemplate rabbitTemplate;
+
 	@RequestMapping("/helloneng")
 	public ModelAndView helloneng(Map<String, Object> map) {
 		map.put("hello", "from TemplateController.helloHtml");
@@ -28,7 +28,15 @@ public class HelloController {
 
 	@RequestMapping("/neng")
 	public String index(ModelMap map) {
-		System.out.println("蔡力能哈哈");
+		for(int i=0;i<30;i++) {
+			//String context = "hello :" +i;
+			Cat cat = new Cat();
+			cat.setCatAge("19");
+			cat.setCatName("cailineng"+i);
+			cat.setId(20);
+			this.rabbitTemplate.convertAndSend("hello", cat);
+		}
+		//System.out.println("蔡力能哈哈");
 		Cat cat = new Cat();
 		cat.setId(1);
 		cat.setCatAge("18");
@@ -47,7 +55,7 @@ public class HelloController {
 		list.add(cat2);
 		map.addAttribute("catList", list);
 		// return模板文件的名称，对应src/main/resources/templates/index.html
-			map.addAttribute("testId", 5);
+		map.addAttribute("testId", 5);
 		map.addAttribute("hehe", 4);
 		return "indexneng";
 	}
@@ -60,27 +68,6 @@ public class HelloController {
 		map.addAttribute("id", id);
 		return "testThe";
 	}
-
-
-
-
-	@RequestMapping("/interruptCall.do")
-	@ResponseBody
-	public Object showUser(HttpServletRequest request, HttpServletResponse response,String name) throws IOException {
-		String callback = request.getParameter("callback");
-		Cat message = new Cat();
-		message.setId(1);
-		message.setCatName("neng");
-		message.setCatAge("14");
-		MappingJacksonValue m = new MappingJacksonValue(message);
-		m.setJsonpFunction(callback);
-		return m;
-	}
-	/*public String interruptCall_new(String sessionId, boolean autoInterrupt, String jsonpCallBack, Integer pId) {
-		Cat cat = new Cat();
-		cat.setCatName("3");
-		return jsonpCallBack + "(" + JSONObject.toJSON(cat).toString() + ")";
-	}*/
 
 
 	//spring security测试
@@ -105,4 +92,52 @@ public class HelloController {
 	}
 
 
+	//spring security测试
+	@RequestMapping("/403")
+	public String error() {
+		return "myerror";
+	}
+
+	@RequestMapping("/testQueue")
+	@ResponseBody
+	public Map testQueue() {
+		Cat cat = new Cat();
+		cat.setId(1);
+		cat.setCatName("wenwen");
+		cat.setCatAge("25");
+		this.rabbitTemplate.convertAndSend("hello",cat);
+		Map rmap = new HashMap();
+		rmap.put("haha","testQueue");
+		return rmap;
+	}
+
+	@RequestMapping("/testRabbitTopic")
+	@ResponseBody
+	public Map testRabbitTopic() {
+		String context = "hi, i am message delete";
+		this.rabbitTemplate.convertAndSend("linengDemoExchange", "topic.shop.delete", context);
+		Map rmap = new HashMap();
+		rmap.put("haha","xixi");
+		return rmap;
+	}
+
+	@RequestMapping("/testRabbitTopic2")
+	@ResponseBody
+	public Map testRabbitTopic2() {
+		String context = "hi, i am messages insert";
+		this.rabbitTemplate.convertAndSend("linengDemoExchange", "topic.shop.insert", context);
+		Map rmap = new HashMap();
+		rmap.put("haha","xixi2");
+		return rmap;
+	}
+
+	@RequestMapping("/testRabbitTopic3")
+	@ResponseBody
+	public Map testRabbitTopic3() {
+		String context = "hi, i am messages update";
+		this.rabbitTemplate.convertAndSend("linengDemoExchange", "topic.shop.update", context);
+		Map rmap = new HashMap();
+		rmap.put("haha","xixi3");
+		return rmap;
+	}
 }
