@@ -1,20 +1,5 @@
 package com.lineng.controller;
 
-import com.google.gson.JsonObject;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetRequestBuilder;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.net.InetAddress;
 import java.util.Date;
@@ -22,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ElasticSearchController {
-    private static String host="192.168.192.254"; // 服务器地址
+   /* private static String host="192.168.192.254"; // 服务器地址
 
     private static int port=9300; // 端口
 
@@ -32,10 +17,10 @@ public class ElasticSearchController {
 
     private static Settings.Builder settings = Settings.builder().put("cluster.name",CLUSTERNAME);
 
-    /**
+    *//**
      * 获取连接
      * @return
-     */
+     *//*
     @SuppressWarnings({ "unchecked", "resource" })
     @Before
     public void getCient()throws Exception{
@@ -43,9 +28,9 @@ public class ElasticSearchController {
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(ElasticSearchController.host), ElasticSearchController.port));
     }
 
-    /**
+    *//**
      * 关闭连接
-     */
+     *//*
     @After
     public void close(){
         if(client!=null){
@@ -53,9 +38,9 @@ public class ElasticSearchController {
         }
     }
 
-    /**
+    *//**
      * 添加索引
-     */
+     *//*
     @Test
     public void add()throws Exception{
         JsonObject jsonObject=new JsonObject();
@@ -72,16 +57,16 @@ public class ElasticSearchController {
         System.out.println("当前实例状态："+response.status());
     }
 
-    /**
+    *//**
      * 得到索引
-     */
+     *//*
     @Test
     public void get()throws Exception{
         GetResponse getResponse = client.prepareGet("qq", "tweet","1").get();
         System.out.println(getResponse.getSourceAsString());
     }
 
-    /**更新**/
+    *//**更新**//*
     @Test
     public void testUpdate(){
         JsonObject jsonObject=new JsonObject();
@@ -96,7 +81,7 @@ public class ElasticSearchController {
         System.out.println("当前实例状态："+response.status());
     }
 
-    /**删除*/
+    *//**删除*//*
     @Test
     public void testDelete(){
         DeleteResponse response=client.prepareDelete("qq", "tweet", "1").get();
@@ -104,5 +89,5 @@ public class ElasticSearchController {
         System.out.println("类型："+response.getType());
         System.out.println("文档ID："+response.getId()); // 第一次使用是1
         System.out.println("当前实例状态："+response.status());
-    }
+    }*/
 }

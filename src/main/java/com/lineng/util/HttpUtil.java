@@ -94,14 +94,16 @@ public class HttpUtil {
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 			throw new Exception("无效的POST地址....");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception("Exception....");
 		} finally{
 			try {
 				if(reader!=null) reader.close();
 				if(connection!=null) connection.disconnect();
 			} catch (IOException e) {
 				e.printStackTrace();
+				throw new Exception("Exception close...");
 			}
 		}
 //		System.out.println("http,Post:" + res==null?null:res.toString().trim());
