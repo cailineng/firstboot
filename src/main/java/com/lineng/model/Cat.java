@@ -1,5 +1,7 @@
 package com.lineng.model;
 
+import org.springframework.data.annotation.Id;
+
 import java.io.Serializable;
 
 /**

@@ -3,6 +3,7 @@ package com.lineng.controller;
 import com.lineng.model.Cat;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +20,16 @@ public class HelloController {
 	@Autowired
 	private AmqpTemplate rabbitTemplate;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
 	@RequestMapping("/helloneng")
 	public ModelAndView helloneng(Map<String, Object> map) {
 		map.put("hello", "from TemplateController.helloHtml");
 		return new ModelAndView("/view/testTemplate");
 	}
+
+
 
 
 	@RequestMapping("/neng")
@@ -140,4 +146,13 @@ public class HelloController {
 		rmap.put("haha","xixi3");
 		return rmap;
 	}
+
+/*    @ResponseBody
+    @RequestMapping("/saveCat")
+    public Map<String,Object> saveCat(Cat cat) {
+        mongoTemplate.save(cat);
+        Map<String,Object> map = new HashMap<>(8);
+        map.put("test","test");
+        return map;
+    }*/
 }

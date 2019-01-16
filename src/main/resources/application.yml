@@ -9,6 +9,12 @@ banner:
 spring:
     application:
         name: rabbitmq-hello
+    data:
+        mongodb:
+             uri: mongodb://linengtest:pwd@47.107.183.40:27017/linengtest
+#            host: 47.107.183.40
+#            port: 27017
+#            database: linengtest
   ##  rabbitmq:
   ##      host: localhost
   ##      port: 5672
