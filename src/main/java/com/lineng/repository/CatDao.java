@@ -29,7 +29,7 @@ public class CatDao {
 		 * 3、执行查询方法.
 		 */
 		String sql = "select * from cat where catName=?";
-		RowMapper<Cat> rowMapper = new BeanPropertyRowMapper<>(Cat.class);
+		RowMapper<Cat> rowMapper = new BeanPropertyRowMapper(Cat.class);
 		Cat cat = jdbcTemplate.queryForObject(sql, new Object[]{catName}, rowMapper);
 		
 		return cat;

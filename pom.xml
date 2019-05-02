@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.lineng.firstboot</groupId>
   <artifactId>firstboot</artifactId>
@@ -13,7 +14,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.9.RELEASE</version>
+    <version>2.0.7.RELEASE</version>
   </parent>
 
 
@@ -176,6 +177,11 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
       <groupId>net.gplatform</groupId>
       <artifactId>Sdk4J</artifactId>
       <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
     </dependency>
 
   </dependencies>

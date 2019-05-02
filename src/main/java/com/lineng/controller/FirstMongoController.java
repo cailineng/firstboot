@@ -26,7 +26,7 @@ public class FirstMongoController {
     @ResponseBody
     public Map<String,Object> saveTeacher(Teacher teacher) {
         mongoTemplate.save(teacher);
-        Map<String,Object> map = new HashMap<>(8);
+        Map<String,Object> map = new HashMap(8);
         map.put("test","test");
         return map;
     }
@@ -36,7 +36,7 @@ public class FirstMongoController {
     @ResponseBody
     public Map<String,Object> saveTeacher2(Teacher teacher) {
         teacherRepository.save(teacher);
-        Map<String,Object> map = new HashMap<>(8);
+        Map<String,Object> map = new HashMap(8);
         map.put("test2","test2");
         return map;
     }

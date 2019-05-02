@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -59,7 +58,7 @@ public class App{
 	 * 在这里我们使用 @Bean注入 fastJsonHttpMessageConvert
 	 * @return
 	 */
-	@Bean
+/*	@Bean
 	public HttpMessageConverters fastJsonHttpMessageConverters() {
 		// 1、需要先定义一个 convert 转换消息的对象;
 		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
@@ -74,7 +73,7 @@ public class App{
 		
 		HttpMessageConverter<?> converter = fastConverter;
 		return new HttpMessageConverters(converter);
-	}
+	}*/
 
 	/**
 	 * redisTemplate 序列化使用的jdkSerializeable, 存储二进制字节码, 所以自定义序列化类
@@ -83,7 +82,7 @@ public class App{
 	 */
 	@Bean
 	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-		RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+		RedisTemplate<Object, Object> redisTemplate = new RedisTemplate();
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
 
 		// 使用Jackson2JsonRedisSerialize 替换默认序列化
@@ -110,6 +109,7 @@ public class App{
 		/*
 		 * 在main方法进行启动我们的应用程序.
 		 */
+		System.setProperty("es.set.netty.runtime.available.processors", "false");
 		SpringApplication.run(App.class, args);
 	}
 }

@@ -7,10 +7,10 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+/*@Configuration*/
 public class TopicRabbitConfig {
 
-    final static String topicShopUpdate = "topic.shop.update";
+ /*   final static String topicShopUpdate = "topic.shop.update";
     final static String topicShopInsert = "topic.shop.insert";
     final static String topicShopDelete = "topic.shop.delete";
     final static String topicShopAll = "topic.shop.#";
@@ -42,5 +42,5 @@ public class TopicRabbitConfig {
     @Bean
     Binding bindingExchangeFrontSystem(Queue queueFrontSystem, TopicExchange exchange) {
         return BindingBuilder.bind(queueFrontSystem).to(exchange).with(topicShopAll);
-    }
+    }*/
 }
