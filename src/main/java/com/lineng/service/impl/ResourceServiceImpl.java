@@ -4,6 +4,7 @@ import com.lineng.esdao.ResourceRepository;
 import com.lineng.esmodel.Resource;
 import com.lineng.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 public class ResourceServiceImpl implements ResourceService {
     @Autowired
     ResourceRepository resourceRepository;
+
+    @javax.annotation.Resource
+    ElasticsearchTemplate elasticsearchTemplate;
 
   /*  @Override
     public  PageInfo<Resource> resources(int page, int count) {
