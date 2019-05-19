@@ -132,7 +132,7 @@ public class EsController {
         return  noteBookList;
     }
 
-    //barnd = 华硕 and （size = 15.6 or 13.4）
+    //barnd = 华硕 and (（size in 15.6 , 13.4 ）or color = "white"））
     @RequestMapping("/condictiontwo")
     @ResponseBody
     public List<NoteBook> condictiontwo() {
@@ -143,12 +143,12 @@ public class EsController {
         boolQueryBuilder =  boolQueryBuilder.must(brand);
 
         BoolQueryBuilder boolQueryColorBuilder = QueryBuilders.boolQuery();
-        QueryBuilder colorDetail =  QueryBuilders.termQuery("size", "15.6");
+        QueryBuilder sizesQuery =  QueryBuilders.termsQuery("size", "15.6","13.4");
 
-        QueryBuilder colorDetail2 =  QueryBuilders.termQuery("size", "13.4");
+        QueryBuilder colorQuery =  QueryBuilders.termQuery("color", "white");
 
 
-        boolQueryBuilder = boolQueryBuilder.must(boolQueryColorBuilder.should(colorDetail).should(colorDetail2));
+        boolQueryBuilder = boolQueryBuilder.must(boolQueryColorBuilder.should(sizesQuery).should(colorQuery));
         Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
         List<NoteBook> noteBookList = Lists.newArrayList(noteBookIterable);
         return  noteBookList;
