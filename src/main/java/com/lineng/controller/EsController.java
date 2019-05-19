@@ -1,16 +1,25 @@
 package com.lineng.controller;
 
+import com.google.common.collect.Lists;
+import com.lineng.esdao.NoteBookRepository;
 import com.lineng.esmodel.Gift;
+import com.lineng.esmodel.NoteBook;
 import com.lineng.service.EsdemoService;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.annotation.Resource;
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +33,8 @@ public class EsController {
     private EsdemoService esdemoService;
     @Resource
     private ElasticsearchTemplate elasticsearchTemplate;
-
+    @Resource
+    private NoteBookRepository noteBookRepository;
     @RequestMapping("/createIndex")
     @ResponseBody
     public String createIndex() {
@@ -32,104 +42,118 @@ public class EsController {
         return "createIndex";
     }
 
-    @RequestMapping("/save")
+
+    @RequestMapping("/initData")
     @ResponseBody
-    public String save() {
-        List<Gift> giftList = new ArrayList();
-        for(long i=0;i<10L;i++){
-            Gift gift = new Gift();
-            gift.setId(i);
-            gift.setCreateTime(new Date());
-            gift.setChangeCount(1);
-            gift.setGiftDetail("礼物详情"+i);
-            gift.setGiftName("礼物名称"+i);
-            gift.setPicUrl("陈奕迅图片Url"+i);
-            gift.setType("实体"+i);
-            gift.setUpdateTime(new Date());
-            giftList.add(gift);
+    public String initData() {
+        List<NoteBook> list = new ArrayList<>();
+        String[] brands = new String[]{"华硕","小米","苹果","华为"};
+        String[] colors = new String[]{"white","red","blank","blue","green"};
+        String[] sizes = new String[]{"13.4","15.6","17.8"};
+        for(int i=0;i<100;i++) {
+            NoteBook noteBook = new NoteBook();
+
+            noteBook.setBrand(brands[i%brands.length]);
+            noteBook.setColor(colors[i%colors.length]);
+            noteBook.setSize(sizes[i%sizes.length]);
+            list.add(noteBook);
         }
-
-        for(long i=10;i<200L;i++){
-            Gift gift2 = new Gift();
-            gift2.setId(i);
-            gift2.setCreateTime(new Date());
-            gift2.setChangeCount(0);
-            gift2.setGiftDetail("第二批礼物"+i);
-            gift2.setGiftName("第二批礼物哈哈哈"+i);
-            gift2.setPicUrl("周杰伦图片Url2"+i);
-            gift2.setType("虚拟"+i);
-            gift2.setUpdateTime(new Date());
-            giftList.add(gift2);
-        }
-        esdemoService.saveGiftList(giftList);
-        return "save";
+        noteBookRepository.saveAll(list);
+        return "成功";
     }
 
-
-    @RequestMapping("/saveWithoutId")
+    @RequestMapping("/testGenerateId")
     @ResponseBody
-    public String saveWithoutId() {
-        Gift gift = new Gift();
-        gift.setCreateTime(new Date());
-        gift.setChangeCount(0);
-        gift.setGiftDetail("礼物详情222");
-        gift.setGiftName("礼物名称222");
-        gift.setPicUrl("陈奕迅图片Url222");
-        gift.setType("卡券");
-        gift.setUpdateTime(new Date());
-
-
-        List<Gift> giftList = new ArrayList();
-        giftList.add(gift);
-
-        esdemoService.saveGiftList(giftList);
-        return "saveWithoutId";
+    public NoteBook testGenerateId() {
+        NoteBook noteBook = new NoteBook();
+        noteBook.setBrand("戴尔");
+        noteBook.setColor("blank");
+        noteBook.setSize("15.6");
+        noteBook = noteBookRepository.save(noteBook);
+        return noteBook;
     }
 
-    @RequestMapping("/deleteById")
+      @RequestMapping("/findNotebookById")
     @ResponseBody
-    public String deleteById() {
-        Long id = 1L;
-        esdemoService.deleteById(id);
-        return "deleteById";
+    public String findNotebookById() {
+        String id = "QtMdfmoBNdWG3c3axXoX";
+        NoteBook noteBook = noteBookRepository.findById(id).get();
+        return noteBook.toString();
     }
 
 
-    @RequestMapping("/findById")
+    @RequestMapping("/findAllNoteBook")
     @ResponseBody
-    public String findById() {
-        Long id = 1L;
-        Gift gift = esdemoService.findById(id);
-        return gift.toString();
+    public String findAllNoteBook() {
+        List<NoteBook> list = Lists.newArrayList(noteBookRepository.findAll());
+        return list.toString();
     }
+    
 
-    @RequestMapping("/findByGiftName")
+    @RequestMapping("/testQueryBuilder")
     @ResponseBody
-    public List<Gift> findByGiftName() {
-        String giftName ="第二";
-        List<Gift> gift = esdemoService.findByGiftName(giftName);
-        return gift;
+    public List<NoteBook> tessQueryBuilder() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        QueryBuilder brand =  QueryBuilders.termQuery("brand", "华硕");
+
+        boolQueryBuilder =  boolQueryBuilder.must(brand);
+
+        QueryBuilder colorDetail =  QueryBuilders.termQuery("color", "blank");
+        boolQueryBuilder = boolQueryBuilder.must(colorDetail);
+        FieldSortBuilder fieldSortBuilder = SortBuilders.fieldSort("size").order(SortOrder.DESC);
+        NativeSearchQueryBuilder builder =  new NativeSearchQueryBuilder().withQuery(boolQueryBuilder)
+                                                                          .withSort(fieldSortBuilder);
+                                                                         /* .withPageable(PageRequest.of(1,1));*/
+        ///这样返回的列表如果不指定每页条数只会返回10条，所以嘛如有需要最好用testQueryBuilder2来查全部
+        Page<NoteBook>  pageList = noteBookRepository.search(builder.build());
+        return  pageList.getContent();
     }
 
-    @RequestMapping("/findByGiftNamePageable")
+    //barnd = 华硕 and （size = 15.6 or 13.4）
+    @RequestMapping("/condictionone")
     @ResponseBody
-    public List<Gift> findByGiftNamePageable() {
-        PageRequest pageRequest = PageRequest.of(0,15);
-        String giftName ="第二";
-        List<Gift> gift = esdemoService.findByGiftNamePage(giftName,pageRequest);
-        return gift;
+    public List<NoteBook> condictionone() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        QueryBuilder brand =  QueryBuilders.termQuery("brand", "华硕");
+
+        boolQueryBuilder =  boolQueryBuilder.must(brand);
+
+        BoolQueryBuilder boolQueryColorBuilder = QueryBuilders.boolQuery();
+        QueryBuilder colorDetail =  QueryBuilders.termQuery("size", "15.6");
+
+        QueryBuilder colorDetail2 =  QueryBuilders.termQuery("size", "13.4");
+
+
+        boolQueryBuilder = boolQueryBuilder.must(boolQueryColorBuilder.should(colorDetail).should(colorDetail2));
+        Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
+        List<NoteBook> noteBookList = Lists.newArrayList(noteBookIterable);
+        return  noteBookList;
     }
 
-    @RequestMapping("/tessQueryBuilder")
+    //barnd = 华硕 and （size = 15.6 or 13.4）
+    @RequestMapping("/condictiontwo")
     @ResponseBody
-    public List<Gift> tessQueryBuilder() {
-        //https://blog.csdn.net/mj86534210/article/details/79910909    一些增删查用法
-      /*  QueryBuilder queryBuilder = new
-        NativeSearchQuery query = new NativeSearchQueryBuilder()
-                                      .withQuery().withPageable().build();*/
+    public List<NoteBook> condictiontwo() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
-        return null;
+        QueryBuilder brand =  QueryBuilders.termQuery("brand", "华硕");
+
+        boolQueryBuilder =  boolQueryBuilder.must(brand);
+
+        BoolQueryBuilder boolQueryColorBuilder = QueryBuilders.boolQuery();
+        QueryBuilder colorDetail =  QueryBuilders.termQuery("size", "15.6");
+
+        QueryBuilder colorDetail2 =  QueryBuilders.termQuery("size", "13.4");
+
+
+        boolQueryBuilder = boolQueryBuilder.must(boolQueryColorBuilder.should(colorDetail).should(colorDetail2));
+        Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
+        List<NoteBook> noteBookList = Lists.newArrayList(noteBookIterable);
+        return  noteBookList;
     }
+
 
 
 

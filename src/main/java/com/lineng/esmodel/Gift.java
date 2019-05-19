@@ -1,12 +1,13 @@
 package com.lineng.esmodel;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
 
-@Document(indexName = "lineng", type = "gift")
+@Document(indexName = "lineng4", type = "gift")
 public class Gift {
     private Long id;
 
@@ -86,17 +87,5 @@ public class Gift {
         this.changeCount = changeCount;
     }
 
-    @Override
-    public String toString() {
-        return "Gift{" +
-                "id=" + id +
-                ", giftName='" + giftName + '\'' +
-                ", type='" + type + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", picUrl='" + picUrl + '\'' +
-                ", giftDetail='" + giftDetail + '\'' +
-                ", changeCount=" + changeCount +
-                '}';
-    }
+
 }
