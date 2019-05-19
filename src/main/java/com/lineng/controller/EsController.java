@@ -154,7 +154,22 @@ public class EsController {
         return  noteBookList;
     }
 
+    //brand ="华硕" and color like 'b%'
+    @RequestMapping("/likeDemo")
+    @ResponseBody
+    public List<NoteBook> likeDemo() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
+        QueryBuilder brandQuery = QueryBuilders.termQuery("brand","华硕");
+        boolQueryBuilder =  boolQueryBuilder.must(brandQuery);
+
+        QueryBuilder  colorQuery = QueryBuilders.wildcardQuery("color", "b*");
+        boolQueryBuilder = boolQueryBuilder.must(colorQuery);
+
+        Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
+        List<NoteBook> noteBookList = Lists.newArrayList(noteBookIterable);
+        return  noteBookList;
+    }
 
 
 }
