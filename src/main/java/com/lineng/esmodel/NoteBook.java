@@ -1,13 +1,15 @@
 package com.lineng.esmodel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
 
-@Document(indexName = "lineng2", type = "notebook")
+@Document(indexName = "lineng6", type = "notebook")
 public class NoteBook {
     @Id
     private String id;
@@ -17,6 +19,27 @@ public class NoteBook {
     private String color;
     @Field(type = FieldType.Keyword)
     private String size;
+    @Field(type = FieldType.Integer)
+    private Integer inventory;
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
+    }
 
     public String getId() {
         return id;

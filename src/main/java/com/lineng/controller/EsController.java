@@ -5,6 +5,7 @@ import com.lineng.esdao.NoteBookRepository;
 import com.lineng.esmodel.Gift;
 import com.lineng.esmodel.NoteBook;
 import com.lineng.service.EsdemoService;
+import org.apache.lucene.search.BooleanQuery;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -23,6 +24,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 @Controller
@@ -56,11 +58,17 @@ public class EsController {
             noteBook.setBrand(brands[i%brands.length]);
             noteBook.setColor(colors[i%colors.length]);
             noteBook.setSize(sizes[i%sizes.length]);
+            noteBook.setCreateTime(new Date());
+            Random random = new Random();
+            int num = random.nextInt(100);
+            noteBook.setInventory(num);
             list.add(noteBook);
         }
         noteBookRepository.saveAll(list);
         return "成功";
     }
+
+
 
     @RequestMapping("/testGenerateId")
     @ResponseBody
@@ -171,5 +179,44 @@ public class EsController {
         return  noteBookList;
     }
 
+
+    //新增字段测试
+    @RequestMapping("/testAddMapping")
+    @ResponseBody
+    public String testAddMapping() {
+        NoteBook noteBook = new NoteBook();
+        noteBook.setBrand("戴尔");
+        noteBook.setColor("gray");
+        noteBook.setSize("15.6");
+        noteBook.setInventory(100);
+        noteBookRepository.save(noteBook);
+        return "成功";
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public List<NoteBook> test() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        QueryBuilder colorQuery =  QueryBuilders.wildcardQuery("color", "g*");
+        boolQueryBuilder = boolQueryBuilder.must(colorQuery);
+        Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
+        List<NoteBook> noteBookList = Lists.newArrayList(noteBookIterable);
+        return  noteBookList;
+    }
+
+    /**
+     * 时间和日期范围demo(注意日期在实体上做了注释，因为有8个小时的时区差的坑)
+     */
+    @RequestMapping("/range")
+    @ResponseBody
+    public List<NoteBook> range() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        QueryBuilder inventoryRangeBuilder = QueryBuilders.rangeQuery("inventory").from(80).to(100);
+        QueryBuilder createTimeRangeBuilder = QueryBuilders.rangeQuery("createTime").from("2019-05-21 16:29:50").to("2019-05-21 16:31:50");
+        boolQueryBuilder = boolQueryBuilder.must(inventoryRangeBuilder).must(createTimeRangeBuilder);
+        Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
+        List<NoteBook> noteBookList = Lists.newArrayList(noteBookIterable);
+        return  noteBookList;
+    }
 
 }
