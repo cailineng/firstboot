@@ -23,10 +23,10 @@ import java.util.*;
  * @version v.0.1
  * @date 2016年12月18日
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalDefaultExceptionHandler {
-
-/*	@ExceptionHandler(value = {ConstraintViolationException.class})
+/*
+*//*	@ExceptionHandler(value = {ConstraintViolationException.class})
 	@ResponseBody
 	public R handleConstraintViolationException(ConstraintViolationException e) {
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
@@ -43,7 +43,7 @@ public class GlobalDefaultExceptionHandler {
 			errors.put(violation.getPropertyPath().toString(), list);
 		}
 		return R.error("校验参数错误").put("errors", errors);
-	}*/
+	}*//*
 	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
@@ -56,6 +56,6 @@ public class GlobalDefaultExceptionHandler {
 //		mv.setViewName(viewName);
 		
 		return "对不起，服务器繁忙，请稍后再试！";
-	}
+	}*/
 	
 }

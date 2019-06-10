@@ -77,6 +77,8 @@ public class EsController {
         noteBook.setBrand("戴尔");
         noteBook.setColor("blank");
         noteBook.setSize("15.6");
+        noteBook.setCreateTime(new Date());
+        noteBook.setInventory(199);
         noteBook = noteBookRepository.save(noteBook);
         return noteBook;
     }
@@ -212,6 +214,7 @@ public class EsController {
     public List<NoteBook> range() {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         QueryBuilder inventoryRangeBuilder = QueryBuilders.rangeQuery("inventory").from(80).to(100);
+
         QueryBuilder createTimeRangeBuilder = QueryBuilders.rangeQuery("createTime").from("2019-05-21 16:29:50").to("2019-05-21 16:31:50");
         boolQueryBuilder = boolQueryBuilder.must(inventoryRangeBuilder).must(createTimeRangeBuilder);
         Iterable<NoteBook> noteBookIterable = noteBookRepository.search(boolQueryBuilder);
@@ -219,4 +222,17 @@ public class EsController {
         return  noteBookList;
     }
 
+
+    @RequestMapping("/testLogstashError")
+    @ResponseBody
+    public Integer testLogstashError(Integer num) {
+        NoteBook noteBook = null;
+        if(num ==0){
+
+        }else{
+            System.out.println(noteBook.getBrand());
+        }
+       // int k = 20/num;
+        return  null;
+    }
 }
