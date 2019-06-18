@@ -12,10 +12,6 @@ spring:
     application:
         name: rabbitmq-hello
     data:
-        elasticsearch:
-            repositories:
-                enabled: true
-            cluster-nodes: 192.168.116.100:9300
         mongodb:
              uri: mongodb://linengtest:pwd@47.107.183.40:27017/linengtest
 #            host: 47.107.183.40
