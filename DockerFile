@@ -1,0 +1,5 @@
+FROM openjdk:8
+MAINTAINER cailineng cailineng@lineng.com
+
+COPY ./firstboot.jar /firstboot.jar
+ENTRYPOINT ["java","-jar","/firstboot.jar"]
