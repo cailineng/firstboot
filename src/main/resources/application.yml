@@ -108,4 +108,4 @@ logging:
     config: classpath:logback-spring.xml
 mybatis:
   mapperLocations: classpath:mybatis/*.xml
-
+  type-aliases-package: com.lineng.mapper

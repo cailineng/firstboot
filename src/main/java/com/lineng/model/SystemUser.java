@@ -1,8 +1,11 @@
 package com.lineng.model;
 
+import javax.persistence.Table;
+
 /**
  * Created by cailineng on 2017/12/30.
  */
+@Table(name="systemuser")
 public class SystemUser{
     private Long id;
     private String userName;

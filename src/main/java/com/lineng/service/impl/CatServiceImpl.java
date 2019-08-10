@@ -63,5 +63,16 @@ public class CatServiceImpl implements CatService {
 		/*return cat2Repository.findByCatAge(catName);*/
 	}
 
+	@Override
+	public Cat saveCat(Cat cat) {
+		catMapper.insert(cat);
+		return cat;
+	}
+
+	@Override
+	public Cat selectById(Integer id) {
+		return catMapper.selectByPrimaryKey(id);
+	}
+
 
 }

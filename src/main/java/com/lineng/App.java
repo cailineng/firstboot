@@ -1,12 +1,10 @@
 package com.lineng;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.mybatis.spring.annotation.MapperScan;
+
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -21,8 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ServletComponentScan
 @SpringBootApplication
-@MapperScan("com.lineng.mapper.*")
-public class App{
+@tk.mybatis.spring.annotation.MapperScan(basePackages = "com.lineng.mapper")
+public class App implements CommandLineRunner {
 	
 //	@Override
 //	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -111,5 +109,10 @@ public class App{
 		 */
 		System.setProperty("es.set.netty.runtime.available.processors", "false");
 		SpringApplication.run(App.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+
 	}
 }

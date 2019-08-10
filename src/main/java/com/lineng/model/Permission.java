@@ -1,8 +1,11 @@
 package com.lineng.model;
 
+import javax.persistence.Table;
+
 /**
  * Created by cailineng on 2018/1/1.
  */
+@Table(name="permission")
 public class Permission {
     private int id;
     //权限名称

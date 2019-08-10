@@ -4,6 +4,7 @@ import com.lineng.model.Cat;
 import com.lineng.model.Demo;
 import com.lineng.service.CatService;
 import com.lineng.service.SystemUserService;
+import com.lineng.service.impl.CatServiceImpl;
 import com.lineng.vo.CatVo;
 import com.lineng.vo.SystemUserVo;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -106,5 +104,24 @@ public class CatController {
         System.out.println(grade + "," + classroom);
     }
 
+
+    /**如果只有少数对象，直接把参数写到Controller层，然后在Controller层进行验证就可以了。*/
+    @RequestMapping(value="/saveCat")
+    @ResponseBody
+    public Cat saveCat(){
+        Cat cat = new Cat();
+        cat.setCatAge("102");
+        cat.setCatName("danshencat");
+        Cat catReturn = catService.saveCat(cat);
+        return catReturn;
+    }
+
+
+    @RequestMapping(value="/selectById")
+    @ResponseBody
+    public Cat selectById(Integer id){
+        Cat catReturn = catService.selectById(id);
+        return catReturn;
+    }
 
 }

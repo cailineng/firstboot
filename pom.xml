@@ -188,6 +188,19 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
           <artifactId>commons-collections</artifactId>
           <version>3.2.2</version>
       </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>tk.mybatis</groupId>
+      <artifactId>mapper-spring-boot-starter</artifactId>
+      <version>2.1.5</version>
+    </dependency>
+
+
 
   </dependencies>
 
@@ -235,6 +248,8 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
           <fork>true</fork>
         </configuration>
       </plugin>
+
+
 
 
     </plugins>
