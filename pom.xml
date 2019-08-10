@@ -211,7 +211,37 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
   <build>
     <finalName>firstboot</finalName>
     <plugins>
+      <plugin>
+        <!--  mybaits 代码生成插件  -->
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-maven-plugin</artifactId>
+        <version>1.3.6</version>
 
+        <configuration>
+          <!--  代码自动生成配置文件路径  -->
+          <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+          <!--  是否覆盖   -->
+          <overwrite>true</overwrite>
+          <!--  允许移动生成的文件  -->
+          <verbose>true</verbose>
+        </configuration>
+
+        <dependencies>
+          <!--  依赖库,生成代码时需要数据库驱动  -->
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version>
+          </dependency>
+
+          <!--  mapper 依赖库  -->
+          <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+            <version>4.0.3</version>
+          </dependency>
+        </dependencies>
+      </plugin>
 
       <!-- 在这里添加springloader plugin
       <plugin>
