@@ -65,7 +65,7 @@ public class CatServiceImpl implements CatService {
 
 	@Override
 	public Cat saveCat(Cat cat) {
-		catMapper.insert(cat);
+		catMapper.insertUseGeneratedKeys(cat);
 		return cat;
 	}
 

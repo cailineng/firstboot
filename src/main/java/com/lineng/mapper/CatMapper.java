@@ -2,7 +2,7 @@ package com.lineng.mapper;
 
 
 import com.lineng.model.Cat;
-import tk.mybatis.mapper.common.Mapper;
+import com.lineng.util.BaseMapper;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @email 1992lcg@163.com
  * @date 2017-10-03 09:45:09
  */
-public interface CatMapper extends Mapper<Cat> {
+public interface CatMapper extends BaseMapper<Cat> {
 	public List<Cat> getCats(String catName);
 
 }
