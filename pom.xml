@@ -199,7 +199,11 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
       <artifactId>mapper-spring-boot-starter</artifactId>
       <version>2.1.5</version>
     </dependency>
-
+      <dependency>
+          <groupId>com.github.pagehelper</groupId>
+          <artifactId>pagehelper</artifactId>
+          <version>4.1.6</version>
+      </dependency>
 
 
   </dependencies>
