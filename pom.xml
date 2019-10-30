@@ -44,7 +44,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
-      <version>1.2.15</version>
+      <version>1.2.25</version>
     </dependency>
 
     <dependency>
