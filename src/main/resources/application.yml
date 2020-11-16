@@ -11,13 +11,7 @@ banner:
 spring:
     application:
         name: rabbitmq-hello
-    data:
-        elasticsearch:
-            repositories:
-                enabled: true
-            cluster-nodes: 192.168.116.100:9300
-        mongodb:
-             uri: mongodb://linengtest:pwd@47.107.183.40:27017/linengtest
+
 #            host: 47.107.183.40
 #            port: 27017
 #            database: linengtest
@@ -34,9 +28,9 @@ spring:
     messages:
         encoding: UTF-8
     datasource:
-        url: jdbc:mysql://localhost:3306/testboot
+        url: jdbc:mysql://data-tt.oola.cn/oola?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&useSSL=false
         username: root
-        password: root
+        password: 112233
         driverClassName: com.mysql.jdbc.Driver
         #使用Druid数据源
         type: com.alibaba.druid.pool.DruidDataSource
@@ -106,6 +100,6 @@ spring:
     # 应用自定义配置
 logging:
     config: classpath:logback-spring.xml
-mybatis:
-  mapperLocations: classpath:mybatis/*.xml
-
+mybatis-plus:
+  mapper-locations: classpath:com/lineng/mapper/xml/*.xml
+  type-aliases-package: com.lineng.model

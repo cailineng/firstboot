@@ -1,6 +1,5 @@
 package com.lineng.service;
 
-import com.lineng.mapper.CatMapper;
 import com.lineng.model.Cat;
 import com.lineng.model.SystemUser;
 import com.lineng.vo.SystemUserVo;

@@ -1,6 +1,10 @@
 package com.lineng.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.lineng.mapper.PlusdemoMapper;
 import com.lineng.model.Cat;
+import com.lineng.model.Plusdemo;
+import com.lineng.service.PlusdemoService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.baomidou.mybatisplus.core.toolkit.Wrappers.lambdaQuery;
 
 @Controller
 public class HelloController {
@@ -22,6 +30,10 @@ public class HelloController {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+	@Resource
+    private PlusdemoMapper plusdemoMapper;
+	@Resource
+	private PlusdemoService plusdemoService;
 
 	@RequestMapping("/helloneng")
 	public ModelAndView helloneng(Map<String, Object> map) {
@@ -146,6 +158,30 @@ public class HelloController {
 		rmap.put("haha","xixi3");
 		return rmap;
 	}
+
+
+	@RequestMapping("/testPlusDemo")
+	@ResponseBody
+	public List<Plusdemo> testPlusDemo() {
+		List<Plusdemo> list = plusdemoMapper.selectList(null);
+		return list;
+	}
+
+	@RequestMapping("/testPlusDemo2")
+	@ResponseBody
+	public List<Plusdemo> testPlusDemo2() {
+		List<Plusdemo> list = plusdemoMapper.selectList(Wrappers.<Plusdemo>lambdaQuery().ge(Plusdemo::getAge,20));
+		return list;
+	}
+
+
+	@RequestMapping("/testPlusDemo3")
+	@ResponseBody
+	public List<Plusdemo> testPlusDemo3(Plusdemo plusdemo) {
+		List<Plusdemo> list = plusdemoService.list();
+		return list;
+	}
+	 //  return giftCategoryDao.list(Wrappers.lambdaQuery(giftCategory).orderByAsc(GiftCategory::getListorder));
 
 /*    @ResponseBody
     @RequestMapping("/saveCat")
