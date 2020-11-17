@@ -1,5 +1,7 @@
 package com.lineng.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lineng.mapper.PlusdemoMapper;
 import com.lineng.model.Cat;
@@ -178,9 +180,23 @@ public class HelloController {
 	@RequestMapping("/testPlusDemo3")
 	@ResponseBody
 	public List<Plusdemo> testPlusDemo3(Plusdemo plusdemo) {
-		List<Plusdemo> list = plusdemoService.list();
+        //Wrappers<Plusdemo> queryWrapper = new
+        QueryWrapper<Plusdemo> queryWrapper = new QueryWrapper();
+        queryWrapper.gt(ObjectUtils.isNotEmpty(plusdemo.getAge()),"age",plusdemo.getAge());
+        queryWrapper.gt(ObjectUtils.isNotEmpty(plusdemo.getId()),"id",plusdemo.getId());
+		List<Plusdemo> list = plusdemoService.list(queryWrapper);
 		return list;
 	}
+
+    @RequestMapping("/testPlusDemo4")
+    @ResponseBody
+    public List<Plusdemo> testPlusDemo4(Plusdemo plusdemo) {
+        List<Plusdemo> list = plusdemoService.list(Wrappers.<Plusdemo>lambdaQuery()
+                                                    .gt(ObjectUtils.isNotEmpty(plusdemo.getAge()),Plusdemo::getAge,plusdemo.getAge())
+                                                    .gt(ObjectUtils.isNotEmpty(plusdemo.getId()),Plusdemo::getId,plusdemo.getId())
+                                                    );
+        return list;
+    }
 	 //  return giftCategoryDao.list(Wrappers.lambdaQuery(giftCategory).orderByAsc(GiftCategory::getListorder));
 
 /*    @ResponseBody
