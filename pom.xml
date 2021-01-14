@@ -146,7 +146,7 @@ spring boot 父节点依赖,引入这个之后相关的引入就不需要添加v
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
-      <version>3.10-FINAL</version>
+      <version>3.17</version>
     </dependency>
 
       <dependency>
